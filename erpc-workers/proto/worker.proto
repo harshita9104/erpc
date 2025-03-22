@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package worker;
+
+service WorkerService{
+    // Gives the client a batch of IncompleteWorks
+    rpc get_incomplete_works(Empty) returns (IncompleteWorkBatch);
+
+    /// Client submits the CompletedWorkBatch that the server is expecting
+    rpc submit_completed_works(CompletedWorkBatch) returns (Empty);
+
+    /// Gives the no of parallel circuit builds attempts that should be made
+    rpc no_of_parallel_circuits_build_attempt(Empty) returns (ParallelCircuitsToBuild);
+    
+    /// Gives the minimum circuit build timeout to be set
+    rpc get_cbt_min_timeout(Empty) returns (CbtMinTimeout);
+}
+
+/// The no of parallel circuits to attempt to build
+message ParallelCircuitsToBuild{
+    uint32 value = 1;
+}
+
+/// The minimum circuit build timeout 
+message CbtMinTimeout{
+    int32 value = 1;
+}
+
+/// A batch of Incomplete Work assigned to Secondary
+message IncompleteWorkBatch{
+    repeated SecondaryIncompleteWork incomplete_works = 1;
+}
+
+/// A batch of Completed Work finished by the Secondary
+message CompletedWorkBatch{
+    repeated SecondaryCompletedWork completed_works = 1;
+}
+
+message Empty{}
+
+/// The Metadata  of IncompleteWork that was assigned to the Secondary Worker
+message SecondaryIncompleteWork{
+    //The unique identifier to the source relay, i.e RSA_ID
+    string source_relay = 1;
+        
+    // The unique identifier to the relay i.e RSA_ID
+    string destination_relay = 2;
+}
+
+/// A Metadata of CompletedWork submitted by the Secondary worker
+message SecondaryCompletedWork{
+    string source_relay = 1;
+
+    /// The unique identifier to the 
+    string destination_relay = 2;
+
+    // Unix Epoch time at which the circuit was attempted to build
+    uint64 timestamp = 3;
+    
+    // The work status representing failure or success, "0" means
+    // failure and anything that's not "0" is considered success
+    uint32 status = 4;
+    
+    /// The message related to the status 
+    string _message = 5;
+}

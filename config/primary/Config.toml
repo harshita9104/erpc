@@ -1,0 +1,64 @@
+# The configuration to control the primary worker 
+[primary]
+# No of paralle circuits attemmpts created by the scanner of Primary Worker
+no_of_parallel_circuits = 100
+
+# No of work that can be exchanged between the primary worker and the secondary worker,
+# when a secondary worker takes a work, it means it takes 100 relay combinations to work on
+# and when if the secondary worker fails, the work is still expected to be completed
+# for the next work_batch_timeout_duration seconds
+#
+# Keep it same as no_of_parallel_circuits of the secondary workers for best performance
+work_batch_size = 100
+
+# If secondary are allowed to connect and get the portion of workload
+# When set to "false", then the gRPC server for the secondary worker won't
+# be started 
+secondary_allowed = false
+
+# If primary worker scanner is allowed to make attempts on building circuits 
+# When set to "false", then the primary worker scanner won't work
+primary_worker_scanner_allowed = true
+
+# The maximum no of secondary workers that are allowed to connect
+# TODO: Make use of this in the future, this constraint is ignored for now
+max_allowed_secondary = 20
+
+# Whether to make circuit with relay on the same subnet
+circuit_with_relay_on_same_subnet = false
+
+# Whether to make circuit with relay on the same family
+circuit_with_relay_of_same_family = false
+
+
+# Time interval in which the internal tasks must
+# check for fresh NetDir
+# 
+# The lower the time interfval, faster the influx of new relays are
+# detected
+#
+# Setting it to 20(1200seconds) minutes for now
+# Keep it in minutes, because md-consensus are released in the interval of almost hour
+fresh_netdir_check_interval = 1200
+
+# Uses neo4j database to save the data produced  
+neo4j_allowed = false
+
+# Uses sqlite database to save the data produced  
+sqlite_allowed = true
+
+# The minimum circuit build timeout in milliseconds
+# The highest tolerance that c-tor has for 3 hop circuits is 60 seconds
+# so dropping it to 2/3 of 60 it i.e 40 seconds
+min_circuit_build_timeout = 40000
+
+# Either to use OnionPerf analysis files from hosts to see the circuit they have built
+use_onionperf = false
+
+# The OnionPerf hosts to use if we have decided to use Onionperf Analysis files
+onionperf_hosts = ["op-de7a", "op-hk6a", "op-hk7a", "op-nl7a", "op-us7a"]
+
+# The configuration for controlling the secondary worker from priarmy worker
+[secondary]
+# No of paralle circuits created by secondary worker Scanner
+no_of_parallel_circuits = 100

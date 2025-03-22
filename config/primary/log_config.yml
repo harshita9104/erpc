@@ -1,0 +1,17 @@
+refresh_rate: 20 seconds
+
+appenders:
+  stdout:
+    kind: console
+
+  output:
+    kind: file
+    path: "log/output.log"
+    encoder:
+      pattern: "{d} [{t}] {l}- {m}{n}"
+
+root:
+  level: debug
+  appenders:
+    #- output
+    - stdout

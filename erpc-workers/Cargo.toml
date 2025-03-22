@@ -1,0 +1,57 @@
+[package]
+authors = ["Rishad Baniya <rbdrod01@gmail.com>"]
+name = "erpc-workers"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.77"
+default-run = "primary"
+
+[[bin]]
+name = "primary"
+path = "src/primary_main.rs"
+
+[[bin]]
+name = "secondary"
+path = "src/secondary_main.rs"
+
+[[bin]]
+name = "analysis"
+path = "src/analysis.rs"
+
+[dependencies]
+tokio.workspace = true
+anyhow.workspace = true
+serde_json.workspace = true
+serde.workspace = true
+prost.workspace = true
+dotenv.workspace = true
+crossbeam.workspace = true
+erpc-scanner = { path = "../erpc-scanner" }
+erpc-metrics = { path = "../erpc-metrics" }
+futures.workspace = true
+petgraph.workspace = true
+tokio-stream.workspace = true
+dashmap.workspace = true
+tonic.workspace = true
+tonic-reflection.workspace = true
+neo4rs.workspace = true
+thiserror.workspace = true
+env_logger.workspace = true
+log.workspace = true
+toml.workspace = true
+deadqueue.workspace = true
+humantime.workspace = true
+clap.workspace = true
+r2d2_sqlite.workspace = true
+r2d2.workspace = true
+log4rs.workspace = true
+arti-client.workspace = true
+tor-dirmgr.workspace = true
+tor-rtcompat.workspace = true
+tor-circmgr.workspace = true
+tor-netdir.workspace = true
+tor-netdoc.workspace = true
+tor-config.workspace = true
+
+[build-dependencies]
+tonic-build.workspace = true

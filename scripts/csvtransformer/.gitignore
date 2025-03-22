@@ -1,0 +1,8 @@
+node_modules/
+output/
+*.csv
+*.db
+
+sqlite3_export/
+neo4j_export/
+

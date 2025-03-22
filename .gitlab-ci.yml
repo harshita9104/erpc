@@ -1,0 +1,49 @@
+stages:
+  - build
+  - test
+  - deploy
+
+image: rust:1.77
+
+before_script:
+   - rustup component add rustfmt
+   - rustup component add clippy
+   - rustup show
+   - apt update
+   - apt-get install -y protobuf-compiler
+
+run_cargo-fmt:
+  stage: build
+  script:
+    - cargo fmt --verbose -- --check
+
+run_cargo-clippy:
+  stage: build
+  script:
+    - cargo clippy --verbose --tests -- -D warnings
+  allow_failure: true
+
+run_tests:
+  stage: test
+  script:
+    - cargo clippy
+    - cargo build --verbose
+    - cargo test --verbose -- --test-threads=1
+
+pages:
+  stage: deploy
+  # Debian stable is prefered
+  image: rust:1.77-bookworm
+  before_script:
+    # with rust 1.77, only mdbook 0.3.1 is compatible
+    - (test -x $CI_PROJECT_DIR/cargo/bin/mdbook || cargo install --vers "0.3.1" mdbook)
+    - apt update && apt install -y protobuf-compiler pkg-config libssl-dev libsqlite3-dev
+  script:
+    - cd $CI_PROJECT_DIR && mdbook build -d ../public doc
+    # Unfortunately this will compile again
+    - cargo doc --no-deps && mkdir -p public/api && mv target/doc/* public/api
+  artifacts:
+    paths:
+      - public
+  only:
+    - main

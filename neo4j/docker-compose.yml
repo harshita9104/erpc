@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  neo4j:
+    image: neo4j:latest
+    networks:
+      - back
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./conf:/var/lib/neo4j/conf
+      - ./data:/data
+      - ./logs:/logs
+      - ./import:/var/lib/neo4j/import
+      - ./plugins:/plugins
+      - ./queries:/queries
+    environment:
+      - NEO4J_AUTH=neo4j/password
+      - NEO4J_PLUGINS=["apoc", "graph-data-science"]
+networks:
+  back:

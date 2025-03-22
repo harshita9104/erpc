@@ -1,0 +1,25 @@
+[package]
+name = "erpc-scanner"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.77"
+
+[dependencies]
+anyhow.workspace = true
+chrono.workspace = true
+crossbeam.workspace = true
+tokio.workspace = true
+async-stream.workspace = true
+futures-core.workspace = true
+futures.workspace = true
+tokio-stream.workspace = true
+log.workspace = true
+arti-client.workspace = true
+tor-dirmgr.workspace = true
+tor-rtcompat.workspace = true
+tor-circmgr.workspace = true
+tor-netdir.workspace = true
+tor-netdoc.workspace = true
+tor-config.workspace = true
+tor-chanmgr.workspace = true
+tor-proto.workspace = true

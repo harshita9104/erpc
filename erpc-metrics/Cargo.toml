@@ -1,0 +1,17 @@
+[package]
+name = "erpc-metrics"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.77"
+
+[dependencies]
+tokio-stream.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+reqwest.workspace = true
+tokio.workspace = true
+async-compression.workspace = true
+anyhow.workspace = true
+log.workspace = true
+chrono.workspace = true
+thiserror.workspace = true
